@@ -93,8 +93,8 @@ const images = [
             modal: document.querySelector("[data-modal]"),
         };
         
-        refs.openModal.addEventListener("click", toggleModal);
-        refs.closeModal.addEventListener("click", toggleModal);
+        // refs.openModal.addEventListener("click", toggleModal);
+        // refs.closeModal.addEventListener("click", toggleModal);
         
         function toggleModal() {
             refs.modal.classList.toggle("is-hidden");
