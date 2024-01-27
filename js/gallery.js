@@ -64,53 +64,46 @@ const images = [
   },
 ];
 
+// ======================================================================
+
   const galleryContainer = document.getElementById('gallery');
 
-  images.map((image, index) => {
-    const galleryItem = document.createElement('li');
-    galleryItem.classList.add('gallery-item');
-
-    const galleryLink = document.createElement('a');
-    galleryLink.classList.add('gallery-link');
-    galleryLink.href = image.original;
-
-    const galleryImage = document.createElement('img');
-    galleryImage.classList.add('gallery-image');
-    galleryImage.src = image.preview;
-    galleryImage.setAttribute('data-source', image.original);
-    galleryImage.alt = image.description;
-
-    galleryLink.appendChild(galleryImage);
-    galleryItem.appendChild(galleryLink);
-
-    galleryContainer.appendChild(galleryItem);
-
-    
-    (() => {
-        const refs = {
-            openModal: document.querySelector("[data-modal-open]"),
-            closeModal: document.querySelector("[data-modal-close]"),
-            modal: document.querySelector("[data-modal]"),
-        };
-        
-        // refs.openModal.addEventListener("click", toggleModal);
-        // refs.closeModal.addEventListener("click", toggleModal);
-        
-        function toggleModal() {
-            refs.modal.classList.toggle("is-hidden");
-        }
-        })();
+  galleryContainer.addEventListener('click', event => {
+    event.preventDefault();
+  
+    if (event.target.nodeName !== 'IMG') {
+      return;
+    }
+  
+    const largeImageUrl = event.target.dataset.source;
+    console.log(largeImageUrl);
   });
 
-  function openModal(src, alt) {
-    const modal = basicLightbox.create(`<img src="${src}" alt="${alt}">`);
-    
-    
-    const closeModal = () => modal.close();
-    document.addEventListener('keydown', closeModal);
+// ======================================================================
 
-    modal.show(() => {
-      
-      document.removeEventListener('keydown', closeModal);
-    });
-  }
+  galleryContainer.addEventListener('click', event => {
+    event.preventDefault();
+  
+    if (event.target.nodeName !== 'IMG') {
+      return;
+    }
+  
+    const largeImageUrl = event.target.dataset.source;
+  
+    const instance = basicLightbox.create(`
+      <img src="${largeImageUrl}" alt="">
+    `);
+  
+    instance.show();
+  });
+  
+// ======================================================================
+
+  document.addEventListener('keydown', event => {
+    const instance = basicLightbox.get();
+  
+    if (event.key === 'Escape' && instance) {
+      instance.close();
+    }
+  });
+  
