@@ -100,7 +100,7 @@ const images = [
 // ======================================================================
 
   document.addEventListener('keydown', event => {
-    const instance = basicLightbox.get();
+    // const instance = basicLightbox.get();
   
     if (event.key === 'Escape' && instance) {
       instance.close();
