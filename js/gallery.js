@@ -1,3 +1,6 @@
+// import SimpleLightbox from "simplelightbox/dist/simple-lightbox.esm";
+
+
 const images = [
   {
     preview:
@@ -91,7 +94,7 @@ const images = [
     const largeImageUrl = event.target.dataset.source;
   
     const instance = basicLightbox.create(`
-      <img src="${largeImageUrl}" alt="">
+      <img src="${largeImageUrl}" alt="event.target.alt">
     `);
   
     instance.show();
@@ -100,10 +103,12 @@ const images = [
 // ======================================================================
 
   document.addEventListener('keydown', event => {
-    // const instance = basicLightbox.get();
+    const instance = basicLightbox.get();
   
     if (event.key === 'Escape' && instance) {
       instance.close();
     }
   });
+  
+
   
