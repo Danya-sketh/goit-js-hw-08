@@ -68,71 +68,40 @@ const images = [
 ];
 
 
-
-const container = document.querySelector(".gallery");
-container.innerHTML = createMarkup(images)
-
-function createMarkup(arr) {
-  return arr.map(({preview, original, description}) => 
-  `
-  <li class="gallery-item">
-    <a class="gallery-link" href="${original}">
-      <img
-        class="gallery-image"
-        src="${preview}"
-        data-source="${original}"
-        alt="${description}"
-      />
-    </a>
-    </li>
-  `
-
-  ).join("")
-}
+import SimpleLightbox from "simplelightbox";
+import 'simplelightbox/dist/simple-lightbox.min.css';
 
 
-// ======================================================================
 
-  const galleryContainer = document.getElementById('gallery');
 
-  galleryContainer.addEventListener('click', event => {
-    event.preventDefault();
-  
-    if (event.target.nodeName !== 'IMG') {
-      return;
-    }
-  
-    const largeImageUrl = event.target.dataset.source;
-    console.log(largeImageUrl);
-  });
+const galleryContainer = document.querySelector('.gallery');
+const galleryCardsSet = createGallery(galleryItems);
 
-// // ======================================================================
 
-  galleryContainer.addEventListener('click', event => {
-    event.preventDefault();
-  
-    if (event.target.nodeName !== 'IMG') {
-      return;
-    }
-  
-    const largeImageUrl = event.target.dataset.source;
-  
-    const instance = basicLightbox.create(`
-      <img src="${largeImageUrl}" alt="event.target.alt">
-    `);
-  
-    instance.show();
-  });
-  
-// // ======================================================================
+const imagesMarkup = galleryItems
+.map(({preview,original,description}) => 
+`<li class="gallery-item">
+//     <a class="gallery-link" href="${original}">
+//       <img
+//         class="gallery-image"
+//         src="${preview}"
+//         data-source="${original}"
+//         alt="${description}"
+//       />
+//     </a>
+//     </li>`).join("");
 
-//   document.addEventListener('keydown', event => {
-//     const instance = basicLightbox.get();
-  
-//     if (event.key === 'Escape' && instance) {
-//       instance.close();
-//     }
-//   });
-  
+galleryImg.insertAdjacentHTML('afterbegin', imagesMarkup);
+
+
+galleryContainer.insertAdjacentHTML('beforeend', galleryCardsSet);
+
+const lightbox = new SimpleLightbox('.gallery a', {
+  caption: true,
+  captionsData: 'alt',
+  captionDelay: 250,
+});
+
+
 
   
