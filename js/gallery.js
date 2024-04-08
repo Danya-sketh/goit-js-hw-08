@@ -1,4 +1,6 @@
-// import SimpleLightbox from "simplelightbox/dist/simple-lightbox.esm";
+// // IMPORTS
+// const basicLightbox = require('basiclightbox')
+// import * as basicLightbox from 'basiclightbox'
 
 
 const images = [
@@ -68,40 +70,61 @@ const images = [
 ];
 
 
-import SimpleLightbox from "simplelightbox";
-import 'simplelightbox/dist/simple-lightbox.min.css';
+
+
+const container = document.querySelector('.gallery');
+
+// add cards into site
+
+container.innerHTML = createGallery(images);
+
+// modal window
+
+container.addEventListener("click", handleModalOpen)
+
+function handleModalOpen(event){
+  if (event.curentTarget === event.target) return // перевірка якщо не клікнемо на карточку
+
+  const currentImage = event.target.closeset(".gallery-item")
+
+  const imageId = Number(currentImage.dataset.id);
+
+  const image = images.find(({id}) => id === imageId);
+
+
+
+  const instance = basicLightbox.create(`
+	<div class="modal">
+    <a class="gallery-link" href="${image.original}">
+      <img
+        class="gallery-image"
+        src="${image.preview}"
+        data-source="${image.original}"
+        alt="${image.description}"
+      />
+    </a>
+  </div>
+`)
+
+instance.show()
+}
 
 
 
 
-const galleryContainer = document.querySelector('.gallery');
-const galleryCardsSet = createGallery(galleryItems);
+function createGallery(arr){
+  return arr.map(({preview, original, description}) =>
+  `
+  <li class="gallery-item">
+    <a class="gallery-link" href="${original}">
+      <img
+        class="gallery-image"
+        src="${preview}"
+        data-source="${original}"
+        alt="${description}"
+      />
+    </a>
+  </li>`).join("")
+}
 
-
-const imagesMarkup = galleryItems
-.map(({preview,original,description}) => 
-`<li class="gallery-item">
-//     <a class="gallery-link" href="${original}">
-//       <img
-//         class="gallery-image"
-//         src="${preview}"
-//         data-source="${original}"
-//         alt="${description}"
-//       />
-//     </a>
-//     </li>`).join("");
-
-galleryImg.insertAdjacentHTML('afterbegin', imagesMarkup);
-
-
-galleryContainer.insertAdjacentHTML('beforeend', galleryCardsSet);
-
-const lightbox = new SimpleLightbox('.gallery a', {
-  caption: true,
-  captionsData: 'alt',
-  captionDelay: 250,
-});
-
-
-
-  
+// container.insertAdjacentHTML("beforeend", createGallery(gallery));
